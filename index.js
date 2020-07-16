@@ -16,7 +16,9 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 
 // Whatapp events
 const client = new Client({
-  session: sessionData
+  // puppeteer: { headless: false },
+  session: sessionData,
+  restartOnAuthFail: true
 })
 
 client.on('authenticated', (session) => {
@@ -35,6 +37,22 @@ client.on('ready', () => {
 client.on('qr', qr => {
   io.emit('wa-qr', { qr: qr })
 })
+
+client.on('auth_failure', msg => {
+  // Fired if session restore was unsuccessfull
+  client.destroy()
+
+  if (fs.existsSync(SESSION_FILE_PATH)) {
+    fs.unlinkSync(SESSION_FILE_PATH)
+  }
+
+  io.emit('wa-aut-failure')
+  console.error('AUTHENTICATION FAILURE', msg);
+});
+
+client.on('disconnected', (reason) => {
+  console.log('Client was logged out', reason);
+});
 
 client.initialize()
 // End whatapp

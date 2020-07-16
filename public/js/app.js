@@ -1,6 +1,9 @@
 $(function () {
   var socket = io()
   socket.on('wa-qr', function (msg) {
+    $('#qrcode').show()
+    $('#wa-ready').hide()
+    $('#auth-failuer').hide()
     $('#qrcode').empty()
     new QRCode(document.getElementById("qrcode"), msg.qr)
   })
@@ -8,6 +11,11 @@ $(function () {
   socket.on('wa-ready', function (msg) {
     $('#qrcode').hide()
     $('#wa-ready').show()
+  })
+
+  socket.on('wa-aut-failure', function (msg) {
+    $('#auth-failuer').show()
+    $('#wa-ready').hide()
   })
 
   $('form').submit(function (e) {
