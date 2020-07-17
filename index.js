@@ -7,7 +7,7 @@ const http = require('http').createServer(app)
 global.io = require('socket.io')(http)
 const webRoute = require('./routers/web')
 const client = require('./services/whatsapp/whatsapp')
-const SESSION_FILE_PATH = '/service/whatsapp/session.json'
+const SESSION_FILE_PATH = './services/whatsapp/session.json'
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -16,6 +16,10 @@ app.use('/', webRoute)
 client.initialize()
 
 io.on('connection', (socket) => {
+  if (fs.existsSync(SESSION_FILE_PATH)) {
+    io.emit('wa-ready')
+  }
+
   socket.on('send-message', (msg) => {
     if (msg.number !== '' && msg.message !== '') {
       client.sendMessage(`${msg.number}@c.us`, msg.message)

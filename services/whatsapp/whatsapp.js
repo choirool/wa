@@ -43,6 +43,10 @@ client.on('auth_failure', msg => {
   console.error('AUTHENTICATION FAILURE', msg);
 });
 
+client.on('message', async msg => {
+  io.emit('wa-message-recived', msg)
+})
+
 client.on('disconnected', (reason) => {
   console.log('Client was logged out', reason);
 });

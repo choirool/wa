@@ -18,6 +18,10 @@ $(function () {
     $('#wa-ready').hide()
   })
 
+  socket.on('wa-message-recived', function (msg) {
+    console.log(msg)
+  })
+
   $('form').submit(function (e) {
     e.preventDefault() // prevents page reloading
     socket.emit('send-message', {
