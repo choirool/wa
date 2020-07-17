@@ -5,4 +5,4 @@ GET http://localhost:3000/chats
 POST http://localhost:3000/send-message
 Content-Type: application/x-www-form-urlencoded
 
-message=hello&number=6282340033304
+message=hello&number=62823400xxxxx
