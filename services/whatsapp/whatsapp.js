@@ -24,7 +24,7 @@ client.on('authenticated', (session) => {
 
 client.on('ready', () => {
   io.emit('wa-ready')
-  console.log('CLient ready');
+  console.log('Client ready')
 })
 
 client.on('qr', qr => {
@@ -40,15 +40,15 @@ client.on('auth_failure', msg => {
   }
 
   io.emit('wa-aut-failure')
-  console.error('AUTHENTICATION FAILURE', msg);
-});
+  console.error('AUTHENTICATION FAILURE', msg)
+})
 
 client.on('message', async msg => {
   io.emit('wa-message-recived', msg)
 })
 
 client.on('disconnected', (reason) => {
-  console.log('Client was logged out', reason);
-});
+  console.log('Client was logged out', reason)
+})
 
-module.exports = client;
+module.exports = client
